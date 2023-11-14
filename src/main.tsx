@@ -8,6 +8,8 @@ import App from './App.tsx'
 import './index.css'
 import { StyledEngineProvider } from '@mui/material'
 import HomePage from './Components/Home/HomePage.tsx';
+import LoginPage from './Components/Authentication/LoginPage.tsx';
+import RegistrationPage from './Components/Authentication/RegistrationPage.tsx';
 
 
 const router = createBrowserRouter([
@@ -16,8 +18,16 @@ const router = createBrowserRouter([
     element: <App></App>,
     children:[
       {
-        path:"/",
+        path:"/home",
         element:<HomePage></HomePage>
+      },
+      {
+        path:"/login",
+        element:<LoginPage></LoginPage>
+      },
+      {
+        path:"/registration",
+        element: <RegistrationPage></RegistrationPage>
       }
     ]
   },
