@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
 
-const pages = ['Home', 'Login', 'Blog'];
+const pages = ['Home', 'Login', 'Post'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -98,12 +98,20 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center"><Link to={page.toLowerCase()}>{page}</Link>
+              
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center"><Link to="/home">Home</Link>
                   </Typography>
                 </MenuItem>
-              ))}
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center"><Link to="/login">Login</Link>
+                  </Typography>
+                </MenuItem>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center"><Link to="/post">Post</Link>
+                  </Typography>
+                </MenuItem>
+              
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />

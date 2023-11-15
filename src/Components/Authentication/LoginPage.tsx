@@ -26,7 +26,7 @@ export default function FormPropsTextFields() {
         console.log(inputs);
         const email = inputs.email;
         const password = inputs.password;
-        signIn(email, password)
+        signIn(email,password)
         .then((result)=>{
             const user = result.user;
             console.log(user);
