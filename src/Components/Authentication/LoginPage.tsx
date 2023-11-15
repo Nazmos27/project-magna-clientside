@@ -1,10 +1,14 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../../Providers/AuthProvider';
+import { Link } from 'react-router-dom';
 
 
 export default function FormPropsTextFields() {
+
+    const {signIn} = useContext(AuthContext)
 
     const [inputs, setInputs] = useState({
         name: "",
@@ -20,6 +24,13 @@ export default function FormPropsTextFields() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(inputs);
+        const email = inputs.email;
+        const password = inputs.password;
+        signIn(email, password)
+        .then((result)=>{
+            const user = result.user;
+            console.log(user);
+        })
     }
 
 
@@ -54,6 +65,7 @@ export default function FormPropsTextFields() {
                             value={inputs.password}
                         />
                     </div>
+                    <Link to="/registration">Registration</Link>
                     <Button variant='contained' className='bg-blue-500' type='submit'>Log In</Button>
 
                 </Box>
