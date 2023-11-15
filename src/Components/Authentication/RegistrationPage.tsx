@@ -3,16 +3,22 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../Providers/AuthProvider';
+import Swal from 'sweetalert2';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 export default function RegistrationPage() {
 
-  const { createUser } = useContext(AuthContext)
+  const { createUser, updateUserProfile } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || "/"
 
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
     password: "",
+    photoUrl: ""
   })
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -23,13 +29,28 @@ export default function RegistrationPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
+    const name = inputs.name
     const email = inputs.email;
     const password = inputs.password;
-    createUser(email,password)
-    .then((result) => {
-      const newUser = result.user;
-      console.log("new user created",newUser);
-    })
+    const photoUrl = inputs.photoUrl
+    createUser(email, password)
+      .then((result) => {
+        const newUser = result.user;
+        console.log("new user created", newUser);
+        updateUserProfile(name, photoUrl)
+        .then(()=>{
+          console.log("user profie updated");
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Registration Successful!",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        })
+        .catch(error => console.log(error))
+        navigate(from, { replace: true })
+      })
   }
 
 
@@ -52,6 +73,15 @@ export default function RegistrationPage() {
               onChange={handleChange}
               name='name'
               value={inputs.name}
+            />
+
+            <TextField
+              id="outlined-photoUrl"
+              variant='outlined'
+              label="PhotoUrl"
+              onChange={handleChange}
+              name='photoUrl'
+              value={inputs.photoUrl}
             />
 
             <TextField

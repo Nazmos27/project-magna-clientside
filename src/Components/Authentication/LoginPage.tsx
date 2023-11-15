@@ -3,12 +3,16 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../Providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 
 export default function FormPropsTextFields() {
 
     const {signIn} = useContext(AuthContext)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || "/"
 
     const [inputs, setInputs] = useState({
         name: "",
@@ -30,6 +34,14 @@ export default function FormPropsTextFields() {
         .then((result)=>{
             const user = result.user;
             console.log(user);
+            Swal.fire({
+                position: "top",
+                icon: "success",
+                title: "Login Successful!",
+                showConfirmButton: false,
+                timer: 1500
+              });
+              navigate(from,{replace:true})
         })
         .catch(error => console.log(error))
     }

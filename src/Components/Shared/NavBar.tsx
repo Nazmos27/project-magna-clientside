@@ -22,7 +22,7 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const {logOut} = React.useContext(AuthContext)
+  const {logOut,user} = React.useContext(AuthContext)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -100,16 +100,13 @@ function ResponsiveAppBar() {
             >
               
                 <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center"><Link to="/home">Home</Link>
-                  </Typography>
+                  <Link to="/home"><Typography textAlign="center">Home</Typography></Link>
                 </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center"><Link to="/login">Login</Link>
-                  </Typography>
+                  <Link to="/login"><Typography textAlign="center">Login</Typography></Link>
                 </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center"><Link to="/post">Post</Link>
-                  </Typography>
+                  <Link to="/post"><Typography textAlign="center">Post</Typography></Link>
                 </MenuItem>
               
             </Menu>
@@ -149,9 +146,10 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={user?.email} src={user?.photoURL} />
               </IconButton>
             </Tooltip>
+            
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

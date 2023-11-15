@@ -12,6 +12,7 @@ import LoginPage from './Components/Authentication/LoginPage.tsx';
 import RegistrationPage from './Components/Authentication/RegistrationPage.tsx';
 import AuthProvider from './Providers/AuthProvider.tsx';
 import PostSomethingPage from './Components/PostPage/PostSomethingPage.tsx';
+import PrivateRoute from './Providers/PrivateRoute.tsx';
 
 
 const router = createBrowserRouter([
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/post",
-        element: <PostSomethingPage></PostSomethingPage>
+        element: <PrivateRoute><PostSomethingPage></PostSomethingPage></PrivateRoute>
       }
     ]
   },
