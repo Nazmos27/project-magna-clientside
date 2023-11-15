@@ -10,23 +10,24 @@ import { StyledEngineProvider } from '@mui/material'
 import HomePage from './Components/Home/HomePage.tsx';
 import LoginPage from './Components/Authentication/LoginPage.tsx';
 import RegistrationPage from './Components/Authentication/RegistrationPage.tsx';
+import AuthProvider from './Providers/AuthProvider.tsx';
 
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
-    children:[
+    children: [
       {
-        path:"/home",
-        element:<HomePage></HomePage>
+        path: "/home",
+        element: <HomePage></HomePage>
       },
       {
-        path:"/login",
-        element:<LoginPage></LoginPage>
+        path: "/login",
+        element: <LoginPage></LoginPage>
       },
       {
-        path:"/registration",
+        path: "/registration",
         element: <RegistrationPage></RegistrationPage>
       }
     ]
@@ -35,8 +36,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-    <RouterProvider router={router} />
-    </StyledEngineProvider>
+    <AuthProvider>
+      <StyledEngineProvider injectFirst>
+        <RouterProvider router={router} />
+      </StyledEngineProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )
