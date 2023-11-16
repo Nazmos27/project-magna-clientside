@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom'
 const PostSomethingPage = () => {
 
   const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
   const [titleError, setTitleError] = useState(false)
+  const [description, setDescription] = useState("")
   const [descriptionError, setDescriptionError] = useState(false)
+  const [imgUrl, setImgUrl] = useState("")
+  const [imgUrlError, setImgUrlError] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -22,9 +24,12 @@ const PostSomethingPage = () => {
     if (description == '') {
       setDescriptionError(true)
     }
+    if (!imgUrl || imgUrl === ""){
+      setImgUrlError(true)
+    }
 
     if (title && description) {
-      console.log(title, description)
+      console.log(title, description,imgUrl)
     }
   }
 
@@ -32,6 +37,18 @@ const PostSomethingPage = () => {
     <div>
       <form autoComplete="off" onSubmit={handleSubmit}>
         <h2 className='text-3xl font-bold m-10'>Login Form</h2>
+        <TextField
+          label="Image Url"
+          onChange={e => setImgUrl(e.target.value)}
+          required
+          variant="outlined"
+          color="secondary"
+          type="text"
+          sx={{ mb: 3 }}
+          fullWidth
+          value={imgUrl}
+          error={imgUrlError}
+        />
         <TextField
           label="Title"
           onChange={e => setTitle(e.target.value)}
