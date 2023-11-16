@@ -2,6 +2,7 @@ import Button from '@mui/material/Button';
 import { TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import moment from 'moment';
 
 const PostSomethingPage = () => {
 
@@ -11,6 +12,8 @@ const PostSomethingPage = () => {
   const [descriptionError, setDescriptionError] = useState(false)
   const [imgUrl, setImgUrl] = useState("")
   const [imgUrlError, setImgUrlError] = useState(false)
+  const [time,setTime] = useState('')
+  setTime(moment().format('MMMM Do YYYY, h:mm:ss a'))
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -29,6 +32,7 @@ const PostSomethingPage = () => {
     }
 
     if (title && description) {
+      setTime(moment().format('Do MMMM YYYY'))
       console.log(title, description,imgUrl)
     }
   }
