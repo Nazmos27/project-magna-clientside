@@ -1,12 +1,15 @@
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import moment from 'moment';
 import { AuthContext } from '../../Providers/AuthProvider';
+import useAxiosSecure from '../../CustomHooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const PostSomethingPage = () => {
 
   const {user} = useContext(AuthContext)
+  const axiosSecure = useAxiosSecure()
   const [title, setTitle] = useState("")
   const [titleError, setTitleError] = useState(false)
   const [description, setDescription] = useState("")
@@ -14,6 +17,10 @@ const PostSomethingPage = () => {
   const [imgUrl, setImgUrl] = useState("")
   const [imgUrlError, setImgUrlError] = useState(false)
   const [time,setTime] = useState('')
+  useEffect(()=>{
+    setTime(moment().format('Do MMMM YYYY'))
+  },[])
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -32,15 +39,28 @@ const PostSomethingPage = () => {
     }
 
     if (title && description && imgUrl) {
-      setTime(moment().format('Do MMMM YYYY'))
-      console.log(title, description,imgUrl)
+      console.log(title, description, time)
       const postItem = {
         doner: user?.displayName,
         title: title,
         description: description,
-        image_url: imgUrl,
+        img: imgUrl,
         time: time,
       }
+      axiosSecure.post('/posts',postItem)
+      .then((res)=>{
+        console.log(res.data)
+        if(res.data.insertedId){
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Your item has been posted",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          
+        }
+      })
     }
   }
 

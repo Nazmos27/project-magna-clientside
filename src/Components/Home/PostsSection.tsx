@@ -12,12 +12,12 @@ const PostsSection = () => {
     console.log(data.length);
 
   return (
-    <>
+    <div className='my-20'>
     <div>PostsSection</div>
-    <div className='flex gap-4'>
+    <div className='flex gap-4 overflow-x-auto  max-w-full  '>
         {data.map(item => <PostCard data={item}></PostCard>)}
     </div>
-    </>
+    </div>
   )
 }
 
