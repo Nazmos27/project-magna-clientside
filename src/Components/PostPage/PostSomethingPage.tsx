@@ -1,11 +1,12 @@
 import Button from '@mui/material/Button';
 import { TextField } from '@mui/material'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
 import moment from 'moment';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const PostSomethingPage = () => {
 
+  const {user} = useContext(AuthContext)
   const [title, setTitle] = useState("")
   const [titleError, setTitleError] = useState(false)
   const [description, setDescription] = useState("")
@@ -13,7 +14,6 @@ const PostSomethingPage = () => {
   const [imgUrl, setImgUrl] = useState("")
   const [imgUrlError, setImgUrlError] = useState(false)
   const [time,setTime] = useState('')
-  setTime(moment().format('MMMM Do YYYY, h:mm:ss a'))
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -31,9 +31,16 @@ const PostSomethingPage = () => {
       setImgUrlError(true)
     }
 
-    if (title && description) {
+    if (title && description && imgUrl) {
       setTime(moment().format('Do MMMM YYYY'))
       console.log(title, description,imgUrl)
+      const postItem = {
+        doner: user?.displayName,
+        title: title,
+        description: description,
+        image_url: imgUrl,
+        time: time,
+      }
     }
   }
 
