@@ -38,36 +38,54 @@ export default function PostCard({ data }) {
     setExpanded(!expanded);
   };
 
-  const [count, setCount] = React.useState(react)
+  const [count, setCount] = React.useState(true)
+  const [, refetch] = useDataFetcher()
   const reactCounter = () => {
-    setCount(count + 1)
-    console.log(count);
-    const updatedReact = react+1
-    const updatedPost = { doner, time, title, description, img, updatedReact }
-    console.log(updatedPost);
-    fetch(`http://localhost:5000/posts/${_id}`, {
-      method: 'PUT',
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify(updatedPost)
-    })
-      .then((res) => res.json())
-      .then(data => {
-        console.log("post updated", data);
-        if (data.upsertedId) {
-          Swal.fire({
-            position: "top",
-            icon: "success",
-            title: "Your item has been updated",
-            showConfirmButton: false,
-            timer: 1500
-          })
-        }
+
+    if (count) {
+      const updatedReact = react + 1
+      const updatedPost = { doner, time, title, description, img, updatedReact }
+      console.log(updatedPost);
+      fetch(`http://localhost:5000/posts/${_id}`, {
+        method: 'PUT',
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(updatedPost)
       })
+        .then((res) => res.json())
+        .then(data => {
+          console.log("post updated", data);
+          if (data.acknowledged) {
+            setCount(!count)
+            refetch()
+          }
+        })
+    } else {
+      const updatedReact = react - 1
+      const updatedPost = { doner, time, title, description, img, updatedReact }
+      console.log(updatedPost);
+      fetch(`http://localhost:5000/posts/${_id}`, {
+        method: 'PUT',
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(updatedPost)
+      })
+        .then((res) => res.json())
+        .then(data => {
+          console.log("post updated", data);
+          if (data.acknowledged) {
+            setCount(!count)
+            refetch()
+          }
+        })
+    }
+
+
   }
 
-  const [, refetch] = useDataFetcher()
+
 
   return (
     <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 420, minWidth: 345, marginY: 4 }}>
@@ -99,7 +117,7 @@ export default function PostCard({ data }) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={reactCounter}>
-          <FavoriteIcon />
+          {count? <FavoriteIcon/>:<FavoriteIcon color='error'/>}
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
