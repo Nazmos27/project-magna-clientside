@@ -46,6 +46,7 @@ const PostSomethingPage = () => {
         description: description,
         img: imgUrl,
         time: time,
+        cart : 0,
       }
       axiosSecure.post('/posts',postItem)
       .then((res)=>{

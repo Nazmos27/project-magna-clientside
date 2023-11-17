@@ -14,6 +14,13 @@ import AuthProvider from './Providers/AuthProvider.tsx';
 import PostSomethingPage from './Components/PostPage/PostSomethingPage.tsx';
 import PrivateRoute from './Providers/PrivateRoute.tsx';
 
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
+
 
 const router = createBrowserRouter([
   {
@@ -43,9 +50,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <StyledEngineProvider injectFirst>
-        <RouterProvider router={router} />
-      </StyledEngineProvider>
+      <QueryClientProvider client={queryClient}>
+        <StyledEngineProvider injectFirst>
+          <RouterProvider router={router} />
+        </StyledEngineProvider>
+      </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>,
 )

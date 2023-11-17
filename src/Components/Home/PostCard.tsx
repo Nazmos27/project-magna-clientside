@@ -26,16 +26,23 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function PostCard({data}) {
+
+
+export default function PostCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
-  const {doner,time,title, description,img} = data
+  const { doner, time, title, description, img } = data
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const [count, setCount] = React.useState(0)
+  const reactCounter = () => {
+    setCount(count + 1)
+  }
+
   return (
-    <Card sx={expanded? {maxHeight:800,minWidth: 345,marginY:4}:{maxHeight:420,minWidth: 345,marginY:4}}>
+    <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 420, minWidth: 345, marginY: 4 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -50,11 +57,12 @@ export default function PostCard({data}) {
         title={doner}
         subheader={time}
       />
+      {/* TODO: customize the image part so that it shows fixed hight without dependencies */}
       <CardMedia
         component="img"
-        height="194"
+        height="196"
         image={img}
-        alt="Paella dish"
+        alt="Product"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
@@ -62,8 +70,8 @@ export default function PostCard({data}) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label="add to favorites" onClick={reactCounter}>
+          <FavoriteIcon/>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
@@ -77,6 +85,7 @@ export default function PostCard({data}) {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
+      <CardContent><Typography>{count}</Typography></CardContent>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>{description}</Typography>
