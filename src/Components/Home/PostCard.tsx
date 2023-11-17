@@ -14,6 +14,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import useDataFetcher from '../../CustomHooks/useDataFetcher';
+import Swal from 'sweetalert2';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,16 +32,42 @@ const ExpandMore = styled((props) => {
 
 export default function PostCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
-  const { doner, time, title, description, img } = data
+  const { _id, doner, time, title, description, img, react } = data
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const [count, setCount] = React.useState(0)
+  const [count, setCount] = React.useState(react)
   const reactCounter = () => {
     setCount(count + 1)
+    console.log(count);
+    const updatedReact = react+1
+    const updatedPost = { doner, time, title, description, img, updatedReact }
+    console.log(updatedPost);
+    fetch(`http://localhost:5000/posts/${_id}`, {
+      method: 'PUT',
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(updatedPost)
+    })
+      .then((res) => res.json())
+      .then(data => {
+        console.log("post updated", data);
+        if (data.upsertedId) {
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "Your item has been updated",
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      })
   }
+
+  const [, refetch] = useDataFetcher()
 
   return (
     <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 420, minWidth: 345, marginY: 4 }}>
@@ -71,7 +99,7 @@ export default function PostCard({ data }) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={reactCounter}>
-          <FavoriteIcon/>
+          <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
@@ -85,7 +113,7 @@ export default function PostCard({ data }) {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
-      <CardContent><Typography>{count}</Typography></CardContent>
+      {react && <CardContent><Typography>{react}</Typography></CardContent>}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>{description}</Typography>
