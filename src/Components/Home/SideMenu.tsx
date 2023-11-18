@@ -14,8 +14,7 @@ const SideMenu = () => {
       animate={isOpen ? "open" : "closed"}
       variants={variants}
     >
-      <Toggle onClick={() => setIsOpen(isOpen => !isOpen)} />
-      <Items />
+      
     </motion.nav>
   )
 }

@@ -16,6 +16,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import useDataFetcher from '../../CustomHooks/useDataFetcher';
 import Swal from 'sweetalert2';
+import { AddShoppingCart } from '@mui/icons-material';
+import { axiosSecure } from '../../CustomHooks/useAxiosSecure';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -46,40 +48,48 @@ export default function PostCard({ data }) {
       const updatedReact = react + 1
       const updatedPost = { doner, time, title, description, img, updatedReact }
       console.log(updatedPost);
-      fetch(`http://localhost:5000/posts/${_id}`, {
-        method: 'PUT',
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(updatedPost)
+      axiosSecure.put(`/posts/${_id}`,updatedPost)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.acknowledged) {
+                setCount(!count)
+                refetch()
+              }
       })
-        .then((res) => res.json())
-        .then(data => {
-          console.log("post updated", data);
-          if (data.acknowledged) {
-            setCount(!count)
-            refetch()
-          }
-        })
+      .catch(function (error) {
+        console.log(error);
+      });
+      // fetch(`http://localhost:5000/posts/${_id}`, {
+      //   method: 'PUT',
+      //   headers: {
+      //     "content-type": "application/json"
+      //   },
+      //   body: JSON.stringify(updatedPost)
+      // })
+      //   .then((res) => res.json())
+      //   .then(data => {
+      //     console.log("post updated", data);
+      //     if (data.acknowledged) {
+      //       setCount(!count)
+      //       refetch()
+      //     }
+      //   })
     } else {
       const updatedReact = react - 1
       const updatedPost = { doner, time, title, description, img, updatedReact }
       console.log(updatedPost);
-      fetch(`http://localhost:5000/posts/${_id}`, {
-        method: 'PUT',
-        headers: {
-          "content-type": "application/json"
-        },
-        body: JSON.stringify(updatedPost)
+
+      axiosSecure.put(`/posts/${_id}`,updatedPost)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.acknowledged) {
+                setCount(!count)
+                refetch()
+              }
       })
-        .then((res) => res.json())
-        .then(data => {
-          console.log("post updated", data);
-          if (data.acknowledged) {
-            setCount(!count)
-            refetch()
-          }
-        })
+      .catch(function (error) {
+        console.log(error);
+      });
     }
 
 
@@ -117,10 +127,10 @@ export default function PostCard({ data }) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={reactCounter}>
-          {count? <FavoriteIcon/>:<FavoriteIcon color='error'/>}
+          {count ? <FavoriteIcon /> : <FavoriteIcon color='error' />}
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
+        <IconButton color="primary" aria-label="add to shopping cart">
+          <AddShoppingCart />
         </IconButton>
         <ExpandMore
           expand={expanded}
