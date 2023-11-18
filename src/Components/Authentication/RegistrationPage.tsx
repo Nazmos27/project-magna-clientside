@@ -5,6 +5,7 @@ import { useContext, useState } from 'react'
 import { AuthContext } from '../../Providers/AuthProvider';
 import Swal from 'sweetalert2';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { axiosSecure } from '../../CustomHooks/useAxiosSecure';
 
 
 export default function RegistrationPage() {
@@ -38,6 +39,20 @@ export default function RegistrationPage() {
         const newUser = result.user;
         console.log("new user created", newUser);
         updateUserProfile(name, photoUrl)
+
+        const postItem = {
+          user : email,
+          cartList:[],
+          likedPost:[]
+        }
+        axiosSecure.post('/usersInfo',postItem)
+        .then((res)=>{
+          console.log(res.data)
+          if(res.data.insertedId){
+            console.log("successfully created new dataase data");
+          }
+        })
+
         .then(()=>{
           console.log("user profie updated");
           Swal.fire({

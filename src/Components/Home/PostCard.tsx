@@ -18,6 +18,7 @@ import useDataFetcher from '../../CustomHooks/useDataFetcher';
 import Swal from 'sweetalert2';
 import { AddShoppingCart } from '@mui/icons-material';
 import { axiosSecure } from '../../CustomHooks/useAxiosSecure';
+import { AuthContext } from '../../Providers/AuthProvider';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -33,6 +34,7 @@ const ExpandMore = styled((props) => {
 
 
 export default function PostCard({ data }) {
+  const {user} = React.useContext(AuthContext)
   const [expanded, setExpanded] = React.useState(false);
   const { _id, doner, time, title, description, img, react } = data
 
@@ -41,6 +43,7 @@ export default function PostCard({ data }) {
   };
 
   const [count, setCount] = React.useState(true)
+  const [addCart, setAddCart] = React.useState(true)
   const [, refetch] = useDataFetcher()
   const reactCounter = () => {
 
@@ -96,6 +99,12 @@ export default function PostCard({ data }) {
   }
 
 
+  const handlaAddCart = (id) => {
+    console.log("id is",id);
+  }
+
+
+
 
   return (
     <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 420, minWidth: 345, marginY: 4 }}>
@@ -129,7 +138,7 @@ export default function PostCard({ data }) {
         <IconButton aria-label="add to favorites" onClick={reactCounter}>
           {count ? <FavoriteIcon /> : <FavoriteIcon color='error' />}
         </IconButton>
-        <IconButton color="primary" aria-label="add to shopping cart">
+        <IconButton color="primary" aria-label="add to shopping cart" onClick={()=>handlaAddCart(_id)}>
           <AddShoppingCart />
         </IconButton>
         <ExpandMore
