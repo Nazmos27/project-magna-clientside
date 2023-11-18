@@ -1,21 +1,14 @@
-import { motion } from "framer-motion"
-import {useState} from 'react'
-
-const variants = {
-  open: { opacity: 1, x: 0 },
-  closed: { opacity: 0, x: "-100%" },
-}
+import React from 'react'
+import { axiosSecure } from '../../CustomHooks/useAxiosSecure'
 
 const SideMenu = () => {
-  const [isOpen, setIsOpen] = useState(false)
+
+  const data = axiosSecure.get('/usersInfo')
+  console.log("userdata",data)
 
   return (
-    <motion.nav
-      animate={isOpen ? "open" : "closed"}
-      variants={variants}
-    >
-      
-    </motion.nav>
+    <div>SideMenu</div>
   )
 }
-export default SideMenu;
+
+export default SideMenu
