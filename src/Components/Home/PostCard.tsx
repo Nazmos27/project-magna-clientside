@@ -19,6 +19,7 @@ import Swal from 'sweetalert2';
 import { AddShoppingCart } from '@mui/icons-material';
 import { axiosSecure } from '../../CustomHooks/useAxiosSecure';
 import { AuthContext } from '../../Providers/AuthProvider';
+import useCart from '../../CustomHooks/useCart';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -34,7 +35,6 @@ const ExpandMore = styled((props) => {
 
 
 export default function PostCard({ data }) {
-  const {user} = React.useContext(AuthContext)
   const [expanded, setExpanded] = React.useState(false);
   const { _id, doner, time, title, description, img, react } = data
 
@@ -97,10 +97,26 @@ export default function PostCard({ data }) {
 
 
   }
-
+  const {user} = React.useContext(AuthContext)
+  const [usersData] = useCart()
+  console.log(usersData)
 
   const handlaAddCart = (id) => {
     console.log("id is",id);
+    const updatedReact = react + 1
+      const updatedPost = { doner, time, title, description, img, updatedReact }
+      console.log(updatedPost);
+      axiosSecure.put(`/posts/${_id}`,updatedPost)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.acknowledged) {
+                setCount(!count)
+                refetch()
+              }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
 
