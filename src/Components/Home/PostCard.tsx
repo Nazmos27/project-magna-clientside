@@ -99,14 +99,16 @@ export default function PostCard({ data }) {
   }
   const {user} = React.useContext(AuthContext)
   const [usersData] = useCart()
-  console.log(usersData)
+  const {cartList} = usersData
 
   const handlaAddCart = (id) => {
     console.log("id is",id);
-    const updatedReact = react + 1
-      const updatedPost = { doner, time, title, description, img, updatedReact }
+    const updatedCart = [...cartList,id]
+    const userMail = user?.email
+    const likedPost = []
+      const updatedPost = { userMail,updatedCart,likedPost }
       console.log(updatedPost);
-      axiosSecure.put(`/posts/${_id}`,updatedPost)
+      axiosSecure.put(`/updateUser/${user?.email}`,updatedPost)
       .then(function (response) {
         console.log(response.data);
         if (response.data.acknowledged) {

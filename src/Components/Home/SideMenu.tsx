@@ -1,29 +1,32 @@
-import React, { useState } from 'react'
-import { axiosSecure } from '../../CustomHooks/useAxiosSecure'
-import { useQuery } from '@tanstack/react-query'
-import { useDropdown } from '@mui/base'
-import { Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import useAuth from '../../CustomHooks/useAuth'
 import useCart from '../../CustomHooks/useCart'
 
 const SideMenu = () => {
-  // const [usersData,setUsersData] = useState([])
-  const {user} = useAuth()
- 
-  const [usersData] = useCart()
+  const [data,setData] = useState([])
+  const {user,loading} = useAuth()
+//  console.log(user.email);
+  const [usersData,isLoading] = useCart()
   console.log(usersData);
+  useEffect(()=>{
+    setData(usersData)
+  },[usersData])
+  console.log(data);
 
+  if(loading && isLoading){
+    return <div>Loading...</div>
+  }else{
+    return (
+      <div>
+        <div>afa{data && data?.cartList?.length}</div>
+        
+      </div>
+    )
+  }
   
   
 
-  return (
-    <div>
-      <div>afa</div>
-      {
-        usersData && usersData.map(item => <h1>{item.user}</h1>)
-      }
-    </div>
-  )
+ 
 }
 
 export default SideMenu
