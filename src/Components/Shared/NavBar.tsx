@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
 
-const pages = ['Home', 'Login', 'Post'];
+const pages = ['Home', 'Login', 'Post', 'MyCart'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -107,6 +107,9 @@ function ResponsiveAppBar() {
                 </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
                   <Link to="/post"><Typography textAlign="center">Post</Typography></Link>
+                </MenuItem>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Link to="/myCart"><Typography textAlign="center">My Cart</Typography></Link>
                 </MenuItem>
               
             </Menu>

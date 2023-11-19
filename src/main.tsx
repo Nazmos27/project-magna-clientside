@@ -18,6 +18,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import Cart from './Components/MyCart/Cart.tsx';
 
 const queryClient = new QueryClient()
 
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/post",
         element: <PrivateRoute><PostSomethingPage></PostSomethingPage></PrivateRoute>
+      },
+      {
+        path: "/mycart",
+        element: <PrivateRoute><Cart></Cart></PrivateRoute>
       }
     ]
   },

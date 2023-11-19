@@ -44,7 +44,6 @@ export default function PostCard({ data }) {
 
   const [count, setCount] = React.useState(true)
   const [addCart, setAddCart] = React.useState(true)
-  const [, refetch] = useDataFetcher()
   const reactCounter = () => {
 
     if (count) {
@@ -56,7 +55,6 @@ export default function PostCard({ data }) {
         console.log(response.data);
         if (response.data.acknowledged) {
                 setCount(!count)
-                refetch()
               }
       })
       .catch(function (error) {
@@ -98,7 +96,7 @@ export default function PostCard({ data }) {
 
   }
   const {user} = React.useContext(AuthContext)
-  const [usersData] = useCart()
+  const [usersData,refetch] = useCart()
   const {cartList} = usersData
 
   const handlaAddCart = (id) => {
@@ -112,7 +110,6 @@ export default function PostCard({ data }) {
       .then(function (response) {
         console.log(response.data);
         if (response.data.acknowledged) {
-                setCount(!count)
                 refetch()
               }
       })
