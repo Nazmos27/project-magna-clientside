@@ -20,6 +20,9 @@ import { AddShoppingCart } from '@mui/icons-material';
 import { axiosSecure } from '../../CustomHooks/useAxiosSecure';
 import { AuthContext } from '../../Providers/AuthProvider';
 import useCart from '../../CustomHooks/useCart';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -50,16 +53,16 @@ export default function PostCard({ data }) {
       const updatedReact = react + 1
       const updatedPost = { doner, time, title, description, img, updatedReact }
       console.log(updatedPost);
-      axiosSecure.put(`/posts/${_id}`,updatedPost)
-      .then(function (response) {
-        console.log(response.data);
-        if (response.data.acknowledged) {
-                setCount(!count)
-              }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      axiosSecure.put(`/posts/${_id}`, updatedPost)
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data.acknowledged) {
+            setCount(!count)
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       // fetch(`http://localhost:5000/posts/${_id}`, {
       //   method: 'PUT',
       //   headers: {
@@ -80,49 +83,73 @@ export default function PostCard({ data }) {
       const updatedPost = { doner, time, title, description, img, updatedReact }
       console.log(updatedPost);
 
-      axiosSecure.put(`/posts/${_id}`,updatedPost)
-      .then(function (response) {
-        console.log(response.data);
-        if (response.data.acknowledged) {
-                setCount(!count)
-                refetch()
-              }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      axiosSecure.put(`/posts/${_id}`, updatedPost)
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data.acknowledged) {
+            setCount(!count)
+            refetch()
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
 
 
   }
-  const {user} = React.useContext(AuthContext)
-  const [usersData,refetch] = useCart()
-  const {cartList} = usersData
+  const { user } = React.useContext(AuthContext)
+  const [usersData, , refetch] = useCart()//it is important how many things u return from that hook...[usersData,refetch] can not get the refetch funtion
+  const { cartList } = usersData
 
   const handlaAddCart = (id) => {
-    console.log("id is",id);
-    const updatedCart = [...cartList,id]
-    const userMail = user?.email
-    const likedPost = []
-      const updatedPost = { userMail,updatedCart,likedPost }
+    console.log("id is", id);
+
+    const alreadyAddedItem = cartList.includes(id)
+    console.log(alreadyAddedItem, "already")
+
+    if (alreadyAddedItem === false) {
+      const updatedCart = [...cartList, id]
+      const userMail = user?.email
+      const likedPost = []
+      const updatedPost = { userMail, updatedCart, likedPost }
       console.log(updatedPost);
-      axiosSecure.put(`/updateUser/${user?.email}`,updatedPost)
-      .then(function (response) {
-        console.log(response.data);
-        if (response.data.acknowledged) {
-                refetch()
-              }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      axiosSecure.put(`/updateUser/${user?.email}`, updatedPost)
+        .then(function (response) {
+          console.log(response.data);
+          if (response.data.acknowledged) {
+            toast.success('Added to cart successfully')
+            refetch()
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      toast.error('Already Added in your cart list')
+    }
+
   }
+
+
 
 
 
 
   return (
     <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 420, minWidth: 345, marginY: 4 }}>
+     <ToastContainer
+position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="dark"
+/>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -153,7 +180,7 @@ export default function PostCard({ data }) {
         <IconButton aria-label="add to favorites" onClick={reactCounter}>
           {count ? <FavoriteIcon /> : <FavoriteIcon color='error' />}
         </IconButton>
-        <IconButton color="primary" aria-label="add to shopping cart" onClick={()=>handlaAddCart(_id)}>
+        <IconButton color="primary" aria-label="add to shopping cart" onClick={() => handlaAddCart(_id)}>
           <AddShoppingCart />
         </IconButton>
         <ExpandMore
