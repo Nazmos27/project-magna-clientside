@@ -41,53 +41,50 @@ export default function PostCard({ data }) {
   const [expanded, setExpanded] = React.useState(false);
   const { _id, doner, time, title, description, img, react } = data
 
+  const { user } = React.useContext(AuthContext)
+  const [usersData, , refetch] = useCart()//it is important how many things u return from that hook...[usersData,refetch] can not get the refetch funtion
+  const { cartList,likedPost } = usersData
+
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const [count, setCount] = React.useState(true)
-  const [addCart, setAddCart] = React.useState(true)
-  const reactCounter = () => {
+  const reactCounter = (id) => {
+    console.log("likes id is", id);
+    
 
-    if (count) {
-      const updatedReact = react + 1
-      const updatedPost = { doner, time, title, description, img, updatedReact }
+    //TODO: use alreadyReacted instead of alreadyLiked
+    const alreadyLikedItem = likedPost.includes(id)
+    console.log(alreadyLikedItem, "already")
+
+    if (!alreadyLikedItem) {
+      const updatedLiked = [...likedPost, id]
+      const updatedCart = [...cartList]
+      const userMail = user?.email
+      const updatedPost = { userMail, updatedCart, updatedLiked }
       console.log(updatedPost);
-      axiosSecure.put(`/posts/${_id}`, updatedPost)
+      axiosSecure.put(`/updateUser/${user?.email}`, updatedPost)
         .then(function (response) {
           console.log(response.data);
           if (response.data.acknowledged) {
-            setCount(!count)
+            refetch()
           }
         })
         .catch(function (error) {
           console.log(error);
         });
-      // fetch(`http://localhost:5000/posts/${_id}`, {
-      //   method: 'PUT',
-      //   headers: {
-      //     "content-type": "application/json"
-      //   },
-      //   body: JSON.stringify(updatedPost)
-      // })
-      //   .then((res) => res.json())
-      //   .then(data => {
-      //     console.log("post updated", data);
-      //     if (data.acknowledged) {
-      //       setCount(!count)
-      //       refetch()
-      //     }
-      //   })
     } else {
-      const updatedReact = react - 1
-      const updatedPost = { doner, time, title, description, img, updatedReact }
+      const updatedLiked = likedPost.filter(item => item !== id)
+      const updatedCart = [...cartList]
+      const userMail = user?.email
+      const updatedPost = { userMail, updatedCart, updatedLiked }
       console.log(updatedPost);
-
-      axiosSecure.put(`/posts/${_id}`, updatedPost)
+      axiosSecure.put(`/updateUser/${user?.email}`, updatedPost)
         .then(function (response) {
           console.log(response.data);
           if (response.data.acknowledged) {
-            setCount(!count)
             refetch()
           }
         })
@@ -98,21 +95,19 @@ export default function PostCard({ data }) {
 
 
   }
-  const { user } = React.useContext(AuthContext)
-  const [usersData, , refetch] = useCart()//it is important how many things u return from that hook...[usersData,refetch] can not get the refetch funtion
-  const { cartList } = usersData
+  
 
   const handlaAddCart = (id) => {
     console.log("id is", id);
 
     const alreadyAddedItem = cartList.includes(id)
     console.log(alreadyAddedItem, "already")
+    const updatedLiked = [...likedPost]
 
     if (alreadyAddedItem === false) {
       const updatedCart = [...cartList, id]
       const userMail = user?.email
-      const likedPost = []
-      const updatedPost = { userMail, updatedCart, likedPost }
+      const updatedPost = { userMail, updatedCart, updatedLiked }
       console.log(updatedPost);
       axiosSecure.put(`/updateUser/${user?.email}`, updatedPost)
         .then(function (response) {
@@ -138,18 +133,18 @@ export default function PostCard({ data }) {
 
   return (
     <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 420, minWidth: 345, marginY: 4 }}>
-     <ToastContainer
-position="top-center"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="dark"
-/>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -177,8 +172,8 @@ theme="dark"
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={reactCounter}>
-          {count ? <FavoriteIcon /> : <FavoriteIcon color='error' />}
+        <IconButton aria-label="add to favorites" onClick={()=>reactCounter(_id)}>
+          {likedPost?.includes(_id) ? <FavoriteIcon color='error' /> : <FavoriteIcon />}
         </IconButton>
         <IconButton color="primary" aria-label="add to shopping cart" onClick={() => handlaAddCart(_id)}>
           <AddShoppingCart />
