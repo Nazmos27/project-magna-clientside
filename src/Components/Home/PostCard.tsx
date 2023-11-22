@@ -50,15 +50,9 @@ export default function PostCard({ data }) {
     setExpanded(!expanded);
   };
 
-  const [count, setCount] = React.useState(true)
   const reactCounter = (id) => {
-    console.log("likes id is", id);
-    
-
     //TODO: use alreadyReacted instead of alreadyLiked
     const alreadyLikedItem = likedPost.includes(id)
-    console.log(alreadyLikedItem, "already")
-
     if (!alreadyLikedItem) {
       const updatedLiked = [...likedPost, id]
       const updatedCart = [...cartList]
@@ -67,7 +61,7 @@ export default function PostCard({ data }) {
       console.log(updatedPost);
       axiosSecure.put(`/updateUser/${user?.email}`, updatedPost)
         .then(function (response) {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.acknowledged) {
             refetch()
           }
@@ -83,7 +77,6 @@ export default function PostCard({ data }) {
       console.log(updatedPost);
       axiosSecure.put(`/updateUser/${user?.email}`, updatedPost)
         .then(function (response) {
-          console.log(response.data);
           if (response.data.acknowledged) {
             refetch()
           }
@@ -96,12 +89,9 @@ export default function PostCard({ data }) {
 
   }
   
-
+  // funtion that add item on cart
   const handlaAddCart = (id) => {
-    console.log("id is", id);
-
     const alreadyAddedItem = cartList.includes(id)
-    console.log(alreadyAddedItem, "already")
     const updatedLiked = [...likedPost]
 
     if (alreadyAddedItem === false) {

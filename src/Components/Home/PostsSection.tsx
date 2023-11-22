@@ -4,14 +4,6 @@ import useDataFetcher from '../../CustomHooks/useDataFetcher'
 
 const PostsSection = () => {
 
-    const [data,setData] = useState([])
-    // useEffect(()=>{
-    //     fetch('http://localhost:5000/allPosts')
-    //     .then(res=> res.json())
-    //     .then((result)=>{setData(result)})
-    // },[])
-    // console.log(data.length);
-
     const [postData] = useDataFetcher()
     console.log("from tanstack",postData.length)
     
