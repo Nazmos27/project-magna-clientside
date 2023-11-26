@@ -19,6 +19,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import Cart from './Components/MyCart/Cart.tsx';
+import ErrorPage from './Components/Shared/ErrorPage.tsx';
 
 const queryClient = new QueryClient()
 
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>,
+    errorElement:<ErrorPage></ErrorPage>,
     children: [
       {
         path: "/home",
