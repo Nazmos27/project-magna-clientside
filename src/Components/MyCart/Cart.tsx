@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useCart from '../../CustomHooks/useCart'
 import useAuth from '../../CustomHooks/useAuth'
+import ItemCard from './ItemCard'
 
 const Cart = () => {
   const [data,setData] = useState([])
@@ -19,7 +20,7 @@ const Cart = () => {
   }else{
     return (
       <div>
-        <div>afa{data && data?.cartList?.length}</div>
+        <div>afa{data && data?.cartList?.map(item => <ItemCard data={item}></ItemCard>)}</div>
         
       </div>
     )
