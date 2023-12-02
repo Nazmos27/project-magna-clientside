@@ -25,7 +25,7 @@ const sidebar = {
   }
 };
 
-export const Example = () => {
+  const Example = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
@@ -43,3 +43,4 @@ export const Example = () => {
     </motion.nav>
   );
 };
+export default Example;

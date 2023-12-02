@@ -1,5 +1,12 @@
 import * as React from "react";
 import { motion } from "framer-motion";
+import { IconButton, Typography } from "@mui/material";
+import MailIcon from '@mui/icons-material/Mail';
+import MenuIcon from '@mui/icons-material/Menu';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
+
 
 const variants = {
   open: {
@@ -28,8 +35,10 @@ export const MenuItem = ({ i }) => {
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
-      <div className="icon-placeholder" style={style} />
-      <div className="text-placeholder" style={style} />
+      <div className="flex justify-center items-center">
+      <IconButton className="icon-placeholder"  style={style}>{(i===0 && <PermIdentityIcon/>) || (i===1 &&<ShoppingCartIcon/>)}</IconButton>
+      <Typography className="text-placeholder" style={style}>ada<MenuIcon/></Typography>
+      </div>
     </motion.li>
   );
 };
