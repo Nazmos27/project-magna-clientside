@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     element: <SideMenu></SideMenu>,
     children:[
       {
-        path:'/myprofile',
+        path:'myprofile',
         element: <MyProfile></MyProfile>
       }
     ]
