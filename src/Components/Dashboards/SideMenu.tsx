@@ -166,13 +166,15 @@
 
 // export default SideMenu;
 import React from 'react'
-import MyProfile from './User/MyProfile'
-import './User/styles.css'
+import DynamicDrawer from './User/Drawer/DynamicDrawer'
+import './User/Drawer/stylesDrawer.css'
+import { Outlet } from 'react-router-dom'
 
 const SideMenu = () => {
   return (
     <div>
-        <MyProfile></MyProfile>
+        <DynamicDrawer></DynamicDrawer>
+        <Outlet></Outlet>
     </div>
   )
 }

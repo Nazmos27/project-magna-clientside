@@ -21,8 +21,9 @@ import {
 import Cart from './Components/MyCart/Cart.tsx';
 import ErrorPage from './Components/Shared/ErrorPage.tsx';
 import { Dashboard } from '@mui/icons-material';
-import MyProfile from './Components/Dashboards/User/MyProfile.tsx';
 import SideMenu from './Components/Dashboards/SideMenu.tsx';
+import MyProfile from './Components/Dashboards/User/MyProfile.tsx';
+import MyCart from './Components/Dashboards/User/MyCart.tsx';
 
 const queryClient = new QueryClient()
 
@@ -61,7 +62,11 @@ const router = createBrowserRouter([
     children:[
       {
         path:'myprofile',
-        element: <MyProfile></MyProfile>
+        element:<MyProfile></MyProfile>
+      },
+      {
+        path:'mycart',
+        element:<MyCart></MyCart>
       }
     ]
   }

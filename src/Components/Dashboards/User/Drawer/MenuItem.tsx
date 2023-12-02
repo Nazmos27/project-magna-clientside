@@ -5,6 +5,9 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import InsightsOutlinedIcon from '@mui/icons-material/InsightsOutlined';
+import { Link } from "react-router-dom";
 
 
 
@@ -36,7 +39,14 @@ export const MenuItem = ({ i }) => {
       whileTap={{ scale: 0.95 }}
     >
       <div className="flex justify-center items-center">
-      <IconButton className="icon-placeholder"  style={style}>{(i===0 && <PermIdentityIcon/>) || (i===1 &&<ShoppingCartIcon/>)}</IconButton>
+      <IconButton className="icon-placeholder"  style={style}>
+        {
+        (i===0 && <Link className="flex justify-center" to='/dashboard/myprofile'><PermIdentityIcon/></Link>) 
+        || (i===1 && <Link className="flex justify-center" to='/dashboard/mycart'><ShoppingCartIcon/></Link>) 
+        || (i===2 && <Link className="flex justify-center" to='/home'><HomeOutlinedIcon/></Link>) 
+        || (i===3 && <Link className="flex justify-center" to='/dashboard/myprofile'><InsightsOutlinedIcon/></Link>)
+        }
+        </IconButton>
       <Typography className="text-placeholder" style={style}>ada<MenuIcon/></Typography>
       </div>
     </motion.li>
