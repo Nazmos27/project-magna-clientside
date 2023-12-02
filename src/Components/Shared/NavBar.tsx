@@ -22,7 +22,7 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const {logOut,user} = React.useContext(AuthContext)
+  const { logOut, user } = React.useContext(AuthContext)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,17 +33,17 @@ function ResponsiveAppBar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    
+
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const handleLogout= () => {
+  const handleLogout = () => {
     logOut()
-    .then(() => {})
-    .catch(error => console.log(error))
+      .then(() => { })
+      .catch(error => console.log(error))
   }
 
   return (
@@ -98,20 +98,20 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              
-                <MenuItem  onClick={handleCloseNavMenu}>
-                  <Link to="/home"><Typography textAlign="center">Home</Typography></Link>
-                </MenuItem>
-                <MenuItem  onClick={handleCloseNavMenu}>
-                  <Link to="/login"><Typography textAlign="center">Login</Typography></Link>
-                </MenuItem>
-                <MenuItem  onClick={handleCloseNavMenu}>
-                  <Link to="/post"><Typography textAlign="center">Post</Typography></Link>
-                </MenuItem>
-                <MenuItem  onClick={handleCloseNavMenu}>
-                  <Link to="/myCart"><Typography textAlign="center">My Cart</Typography></Link>
-                </MenuItem>
-              
+
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/home"><Typography textAlign="center">Home</Typography></Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/login"><Typography textAlign="center">Login</Typography></Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/post"><Typography textAlign="center">Post</Typography></Link>
+              </MenuItem>
+              <MenuItem onClick={handleCloseNavMenu}>
+                <Link to="/myCart"><Typography textAlign="center">My Cart</Typography></Link>
+              </MenuItem>
+
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -140,7 +140,7 @@ function ResponsiveAppBar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                
+
                 <Link to={page.toLowerCase()}>{page}</Link>
               </Button>
             ))}
@@ -152,7 +152,7 @@ function ResponsiveAppBar() {
                 <Avatar alt={user?.email} src={user?.photoURL} />
               </IconButton>
             </Tooltip>
-            
+
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -169,18 +169,21 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <Link to='/dashboard'>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-                <MenuItem  onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">bal</Typography>
-                </MenuItem>
-                <MenuItem  onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">chal</Typography>
-                </MenuItem>
-                <MenuItem  onClick={handleLogout}>
-                  <Typography textAlign="center">logout</Typography>
-                </MenuItem>
+              </Link>
+
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">bal</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">chal</Typography>
+              </MenuItem>
+              <MenuItem onClick={handleLogout}>
+                <Typography textAlign="center">logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

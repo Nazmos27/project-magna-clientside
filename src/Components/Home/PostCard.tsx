@@ -43,7 +43,7 @@ export default function PostCard({ data }) {
 
   const { user } = React.useContext(AuthContext)
   const [usersData, , refetch] = useCart()//it is important how many things u return from that hook...[usersData,refetch] can not get the refetch funtion
-  const { cartList,likedPost } = usersData
+  const { cartList, likedPost } = usersData
 
 
   const handleExpandClick = () => {
@@ -88,7 +88,7 @@ export default function PostCard({ data }) {
 
 
   }
-  
+
   // funtion that add item on cart
   const handlaAddCart = (id) => {
     const alreadyAddedItem = cartList.includes(id)
@@ -122,7 +122,7 @@ export default function PostCard({ data }) {
 
 
   return (
-    <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 420, minWidth: 345, marginY: 4 }}>
+    <Card sx={expanded ? { maxHeight: 800, minWidth: 345, marginY: 4 } : { maxHeight: 490, minWidth: 345, marginY: 4 }}>
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -150,19 +150,22 @@ export default function PostCard({ data }) {
         subheader={time}
       />
       {/* TODO: customize the image part so that it shows fixed hight without dependencies */}
-      <CardMedia
+      {/* <CardMedia
         component="img"
         height="196"
         image={img}
         alt="Product"
-      />
+      /> */}
+      <div className='h-72 w-84 flex m-auto justify-center'>
+        <img src={img} className='object-contain max-h-full max-w-full' alt="" />
+      </div>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {title}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={()=>reactCounter(_id)}>
+        <IconButton aria-label="add to favorites" onClick={() => reactCounter(_id)}>
           {likedPost?.includes(_id) ? <FavoriteIcon color='error' /> : <FavoriteIcon />}
         </IconButton>
         <IconButton color="primary" aria-label="add to shopping cart" onClick={() => handlaAddCart(_id)}>
