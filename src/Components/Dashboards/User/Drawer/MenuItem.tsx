@@ -37,6 +37,7 @@ export const MenuItem = ({ i }) => {
       variants={variants}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
+      
     >
       <div className="flex justify-center items-center">
       <IconButton className="icon-placeholder"  style={style}>

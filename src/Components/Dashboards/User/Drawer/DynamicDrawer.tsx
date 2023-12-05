@@ -38,7 +38,7 @@ const sidebar = {
       custom={height}
       ref={containerRef}
     >
-      <motion.div className="background" variants={sidebar} />
+      <motion.div className="absolute top-0 bottom-0 left-0 md:w-[300px] w-44 bg-gray-200" variants={sidebar} />
       <Navigation />
       <MenuToggle toggle={() => toggleOpen()} />
     </motion.nav>
