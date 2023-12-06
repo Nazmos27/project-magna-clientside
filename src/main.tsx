@@ -20,10 +20,9 @@ import {
 } from '@tanstack/react-query'
 import Cart from './Components/MyCart/Cart.tsx';
 import ErrorPage from './Components/Shared/ErrorPage.tsx';
-import { Dashboard } from '@mui/icons-material';
 import SideMenu from './Components/Dashboards/SideMenu.tsx';
 import MyProfile from './Components/Dashboards/User/MyProfile.tsx';
-import MyCart from './Components/Dashboards/User/MyCart.tsx';
+import MyChat from './Components/Dashboards/User/MessageComponents/MyChat.tsx'
 
 const queryClient = new QueryClient()
 
@@ -65,8 +64,8 @@ const router = createBrowserRouter([
         element:<MyProfile></MyProfile>
       },
       {
-        path:'mycart',
-        element:<MyCart></MyCart>
+        path:'chat',
+        element:<MyChat></MyChat>
       }
     ]
   }

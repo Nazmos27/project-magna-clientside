@@ -43,12 +43,12 @@ export const MenuItem = ({ i }) => {
       <IconButton className="icon-placeholder"  style={style}>
         {
         (i===0 && <Link className="flex justify-center" to='/dashboard/myprofile'><PermIdentityIcon/></Link>) 
-        || (i===1 && <Link className="flex justify-center" to='/dashboard/mycart'><ShoppingCartIcon/></Link>) 
+        || (i===1 && <Link className="flex justify-center" to='/dashboard/chat'><ShoppingCartIcon/></Link>) 
         || (i===2 && <Link className="flex justify-center" to='/home'><HomeOutlinedIcon/></Link>) 
         || (i===3 && <Link className="flex justify-center" to='/dashboard/myprofile'><InsightsOutlinedIcon/></Link>)
         }
         </IconButton>
-      <Typography className="text-placeholder" style={style}>ada<MenuIcon/></Typography>
+      <Typography className="text-placeholder" style={style}>{(i===0 && 'Home') || (i===1 && 'Messages')}<MenuIcon/></Typography>
       </div>
     </motion.li>
   );
